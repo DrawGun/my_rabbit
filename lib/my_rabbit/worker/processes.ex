@@ -29,9 +29,11 @@ defmodule MyRabbit.Worker.Processes do
          |> Enum.member?(socket) do
       true ->
         MyRabbit.Managers.QueueManager.get_subscribers(queue)
-        |> Enum.each(fn socket ->
-          write_line(socket, "{\"message\": \"#{message}\", \"queue\": \"#{queue}\"}")
+        |> Enum.each(fn sub_socket ->
+          write_line(sub_socket, "{\"message\": \"#{message}\", \"queue\": \"#{queue}\"}")
         end)
+
+        write_line(socket, "{\"status\": \"ok\"}")
 
       response ->
         write_line(socket, "{\"not subscribed\": #{inspect(socket)}}")
