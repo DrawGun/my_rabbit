@@ -9,7 +9,7 @@ defmodule MyRabbit.Managers.QueueManager do
 
   def init(state), do: {:ok, state}
 
-  def handle_call({:get_subscribers, queue}, state) do
+  def handle_call({:get_subscribers, queue}, _from, state) do
     {:reply, GenServer.call(queue_name(queue), {:get_state}).subscribers, state}
   end
 
